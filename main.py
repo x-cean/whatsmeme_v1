@@ -1,11 +1,7 @@
-#hello - elinor
-#hi - Xiao
-#just another test - X
-
 from ai import openai_helper as ai
-from data.datamanager import send_message
+from services.twilio_service import send_message
 
-prompt = "create a cat meme, please. it should be cute"
+prompt = "create a funny meme with cats, please. it should be cute"
 
 meme_url = ai.get_generated_meme_from_openai(prompt)
 if meme_url:

@@ -6,11 +6,12 @@ load_dotenv()
 
 openai.api_key = os.getenv("OPEN_AI_KEY")
 
+
 def get_generated_meme_from_openai(prompt):
     try:
-        response = openai.Image.create(prompt=prompt, n=1, size="512x512")
+        response = openai.images.generate(prompt=prompt, n=1, size="512x512")
         print(response)
-        meme_url = response['data'][0]['url']
+        meme_url = response.data[0].url
         return meme_url
     except openai.OpenAIError as e:
         print(f"An error occurred: {e}")

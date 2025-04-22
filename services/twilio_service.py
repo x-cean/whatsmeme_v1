@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
+
 account_sid = os.getenv("MS_TWILIO_ACCOUNT_SID")
 api_sid = os.getenv("MS_TWILIO_API_KEY_SID")
 api_secret = os.getenv("MS_TWILIO_API_KEY_SECRET")
@@ -23,7 +24,4 @@ def send_message(message):
         print(message.sid)
     except TwilioRestException as e:
         print(f"Error: {e}")
-
-
-send_message("Test test does this work? Hello?")
 
