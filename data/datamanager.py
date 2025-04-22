@@ -1,4 +1,5 @@
 import os
+import time
 
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
@@ -21,12 +22,11 @@ def send_message(message):
             from_=f"whatsapp:{twilio_number}",
             body=message)
         print(message.sid)
+        #time.sleep(3)
+        #print(client.messages(message.sid).fetch().status)
     except TwilioRestException as e:
         print(f"Error: {e}")
 
 
-#send_message("Test test does this work?")
-my_message_sid = "SM838fb1d804a6bec3d4548f254b6d946e"
-my_message = client.messages(my_message_sid).fetch()
+send_message("Test test does this work? Hello?")
 
-print(f"Message Status: {my_message.status}")
