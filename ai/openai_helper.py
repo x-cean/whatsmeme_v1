@@ -9,10 +9,16 @@ openai.api_key = os.getenv("OPEN_AI_KEY")
 
 def get_generated_meme_from_openai(prompt):
     try:
-        response = openai.images.generate(prompt=prompt, n=1, size="512x512")
+        response = openai.ChatCompletion.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": prompt}
+            ]
+        )
         print(response)
-        meme_url = response.data[0].url
-        return meme_url
+
+        #TODO image generation - does that work with the model we have a key for?
+
     except openai.OpenAIError as e:
         print(f"An error occurred: {e}")
         return None
