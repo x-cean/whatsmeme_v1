@@ -87,4 +87,4 @@ def send_meme_via_whatsapp(from_whatsapp, to_whatsapp):
     send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url)
 
 
-send_meme_via_whatsapp(twilio_number, user_number)
+#send_meme_via_whatsapp(twilio_number, user_number)

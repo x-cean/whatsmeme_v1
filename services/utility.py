@@ -8,15 +8,15 @@ def load_users():
     Loads user data from the 'users.json' file.
     Creates an empty file if it does not exist.
     """
-    if not os.path.exists("user_data.json"):
-        with open("user_data.json", "w") as file:
+    if not os.path.exists("data/user_data.json"):
+        with open("data/user_data.json", "w") as file:
             json.dump({}, file)
-    with open("user_data.json", "r") as handle:
+    with open("data/user_data.json", "r") as handle:
         return json.load(handle)
 
 
 def save_users(data):
-    with open("user_data.json", "w") as file:
+    with open("data/user_data.json", "w") as file:
         json.dump(data, file, indent=4)
 
 

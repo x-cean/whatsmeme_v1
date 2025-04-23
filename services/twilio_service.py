@@ -3,7 +3,6 @@ from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 from dotenv import load_dotenv
 
-
 load_dotenv()
 
 account_sid = os.getenv("MS_TWILIO_ACCOUNT_SID")
@@ -13,17 +12,17 @@ twilio_number = os.getenv("TWILIO_PHONE_NUMBER")
 user_number = os.getenv("USER_PHONE_NUMBER")
 chat_service_sid = os.getenv("CHAT_SERVICE_SID")
 
-client = Client(api_sid , api_secret , account_sid)
+client = Client(api_sid, api_secret, account_sid)
 print("Client initialized:", client)
 
 
-
-def send_initial_message(message):
+def send_text_message(text):
+    """sends a text message (provided in the arguments) to the user_number via whatsapp"""
     try:
-        message= client.messages.create(
+        message = client.messages.create(
             to=f"whatsapp:{user_number}",
             from_=f"whatsapp:{twilio_number}",
-            body=message)
+            body=text)
         print(message.status)
     except TwilioRestException as e:
         print(f"An error has occurred: {e}")
@@ -31,8 +30,15 @@ def send_initial_message(message):
         print(f"An unexpected error has occurred: {e}")
 
 
-def send_follow_up_message(chat_id, message):
-        client.conversations.v1.conversations(chat_id).messages.create(body=message)
+# def send_follow_up_message(chat_id, text):
+#     try:
+#         message = client.conversations.v1.conversations(chat_id).messages.create(body=text)
+#         print(message)
+#     except TwilioRestException as e:
+#         print(f"An error has occurred: {e}")
+#     except Exception as e:
+#         print(f"An unexpected error has occurred: {e}")
+#send_follow_up_message("CHa5e5424de3874cf8bb2205ddf64e25d9", "halloooo")
 
 
 def send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url):
@@ -73,7 +79,6 @@ def list_conversations(a_chat_service_sid):
         print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}")
 
 
-
 def get_conversation_sids():
     conversations = client.conversations.v1.services(chat_service_sid).conversations.list()
     conversation_sids_list = []
@@ -84,18 +89,11 @@ def get_conversation_sids():
     return conversation_sids_list
 
 
-
-def retrieve_latest_message():
+def retrieve_latest_messages():
+    """gets last two messages sent by the user into the whatsapp chat and returns them in a list of strings"""
     messages = client.messages.list(
-        limit=1
+        limit=2
     )
-    latest_message = messages[0]
-    if latest_message and latest_message.to == f"whatsapp:{twilio_number}" and latest_message.from_ == f"whatsapp:{user_number}":
-        return latest_message.body
-
-
-
-
-
-
-
+    if messages:
+        if messages.to == f"whatsapp:{twilio_number}" and latest_message.from_ == f"whatsapp:{user_number}":
+            return latest_message.body
