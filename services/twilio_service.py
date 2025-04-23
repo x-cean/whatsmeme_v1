@@ -12,6 +12,7 @@ api_sid = os.getenv("MS_TWILIO_API_KEY_SID")
 api_secret = os.getenv("MS_TWILIO_API_KEY_SECRET")
 twilio_number = os.getenv("TWILIO_PHONE_NUMBER")
 user_number = os.getenv("USER_PHONE_NUMBER")
+chat_service_sid = os.getenv("CHAT_SERVICE_SID")
 client = Client(api_sid , api_secret , account_sid)
 
 
@@ -25,5 +26,28 @@ def send_message(message):
     except TwilioRestException as e:
         print(f"An error has occurred: {e}")
     except Exception as e:
-        print(f"An unexpected error has occured: {e}")
+        print(f"An unexpected error has occurred: {e}")
+
+
+def update_conversation_friendly_name(a_conversation_sid, friendly_name: str):
+    """
+    the conversations were given real phone numbers as friendly name,
+    but if we don't want that, we can change it with this
+    no error handling yet, please only give valid conversation sid and str
+    """
+    service_conversation = (
+        client.conversations.v1.services(chat_service_sid)
+        .conversations(a_conversation_sid)
+        .update(friendly_name=friendly_name)
+    )
+
+
+def fetch_conversations(a_chat_service_sid):
+    """
+    fetches conversations from Twilio in a specific chat service
+    """
+    conversations = client.conversations.v1.services(a_chat_service_sid).conversations.list()
+
+    for conversation in conversations:
+        print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}")
 
