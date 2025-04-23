@@ -42,7 +42,8 @@ def get_text_response_from_openai(prompt):
                 {"role": "system", "content": prompt}
             ]
         )
-        print(response.choices[0].message.content)
+        return response.choices[0].message.content
+
 
     except OpenAIError as e:
         print(f"An OpenAI error occurred: {e}")

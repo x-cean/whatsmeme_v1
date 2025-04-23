@@ -8,7 +8,7 @@ import datetime
 from dotenv import load_dotenv
 
 from services.twilio_service import send_msg_with_media
-from ai.openai_helper import get_generated_meme_from_openai
+from ai.openai_helper import get_text_response_from_openai
 
 
 REDDIT_MEME_URL = "https://www.reddit.com/r/memes/top/.json"
@@ -65,13 +65,18 @@ def get_random_meme():
     # feasible, need a reddit developer account, will take care of this later
 
 
-def get_AI_response_to_meme_title(meme_text):
-
+def get_ai_response_to_meme_title(meme_text):
+    print(get_text_response_from_openai(meme_text))
+    print(type(get_text_response_from_openai(meme_text)))
+    return get_text_response_from_openai(meme_text)
 
 
 def send_meme_via_whatsapp(from_whatsapp, to_whatsapp):
     meme_info = get_top_meme_of_the_month()
-    body = meme_info[0]
+    meme_text = meme_info[0]
+    ai_comment = get_ai_response_to_meme_title(meme_text)
+    # body = meme_text + ai_comment
+    body = meme_text
     media_url = meme_info[1]
     send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url)
 
