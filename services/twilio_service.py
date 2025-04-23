@@ -89,11 +89,13 @@ def get_conversation_sids():
     return conversation_sids_list
 
 
-def retrieve_latest_messages():
+def retrieve_latest_message():
     """gets last two messages sent by the user into the whatsapp chat and returns them in a list of strings"""
     messages = client.messages.list(
-        limit=2
+        limit=1
     )
+
     if messages:
-        if messages.to == f"whatsapp:{twilio_number}" and latest_message.from_ == f"whatsapp:{user_number}":
+        latest_message = messages[0]
+        if latest_message.to == f"whatsapp:{twilio_number}" and latest_message.from_ == f"whatsapp:{user_number}":
             return latest_message.body

@@ -44,5 +44,5 @@ def get_text_response_from_openai(prompt):
         return None
 
 
-# print(get_generated_meme_from_openai("please create a picture of a futuristic city. in the background, there should be a sun"))
+print(get_generated_meme_from_openai("please create a picture of an apple tree that is standing on a hill"))
 # get_text_response_from_openai("wow wow wow who is here")
