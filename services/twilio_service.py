@@ -42,9 +42,9 @@ def update_conversation_friendly_name(a_conversation_sid, friendly_name: str):
     )
 
 
-def fetch_conversations(a_chat_service_sid):
+def list_conversations(a_chat_service_sid):
     """
-    fetches conversations from Twilio in a specific chat service
+    lists conversations from Twilio in a specific chat service
     """
     conversations = client.conversations.v1.services(a_chat_service_sid).conversations.list()
 
