@@ -6,7 +6,7 @@ Using APIs to get Memes
 import requests
 import datetime
 
-from ..services.twilio_service import send_msg_with_media
+from WhatsMEME.services.twilio_service import send_msg_with_media
 
 
 REDDIT_MEME_URL = "https://www.reddit.com/r/memes/top/.json"
