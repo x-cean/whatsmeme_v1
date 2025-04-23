@@ -30,17 +30,6 @@ def send_text_message(text):
         print(f"An unexpected error has occurred: {e}")
 
 
-# def send_follow_up_message(chat_id, text):
-#     try:
-#         message = client.conversations.v1.conversations(chat_id).messages.create(body=text)
-#         print(message)
-#     except TwilioRestException as e:
-#         print(f"An error has occurred: {e}")
-#     except Exception as e:
-#         print(f"An unexpected error has occurred: {e}")
-#send_follow_up_message("CHa5e5424de3874cf8bb2205ddf64e25d9", "halloooo")
-
-
 def send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url):
     try:
         message = client.messages.create(
