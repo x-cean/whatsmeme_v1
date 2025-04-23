@@ -7,13 +7,31 @@ def is_new_user(name):
         bool: True if the user is new, False otherwise."""
     pass
 
-
 def welcome_user():
     """Greets the user, asks for their name, and identifies whether they are new or returning.
-    Provides a custom welcome message based on that.
-    Returns:
-        str: The name of the user."""
-    pass
+        Provides a custom welcome message based on that.
+        Returns:
+            str: The name of the user."""
+
+    print("Hi there! Welcome to WhatsMEME – A place to lighten up your mood with some funny memes!\n")
+    name = input("Before we start, what’s your name? ").strip()
+
+    if is_new_user(name):
+        print(f"\nNice to meet you, {name}!")
+        print(f"Let’s dive into some hilarious content!")
+    else:
+        print(f"\nWelcome back, {name}! Ready for some fresh laughs?")
+
+    return name
+
+
+def display_menu():
+    print("\nWould you like to explore some more hilarious memes?")
+    print("Here is how I can help you today! Just make a choice:")
+    print("1 - Get a random meme")
+    print("2 - Choose a meme based on a topic or mood")
+    print("3 - Generate your own meme")
+    print("Type 'help' to get indepth explanations of the various choices and 'exit' to quit.")
 
 
 def show_help_menu():
