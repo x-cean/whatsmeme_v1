@@ -5,55 +5,56 @@ import random
 
 def load_users():
     """
-    Loads user data from the 'users.json' file.
+    Loads user data from the 'user_data.json' file.
     Creates an empty file if it does not exist.
     """
-    if not os.path.exists("data/user_data.json"):
-        with open("data/user_data.json", "w") as file:
+    if not os.path.exists("user_data.json"):
+        with open("user_data.json", "w") as file:
             json.dump({}, file)
-    with open("data/user_data.json", "r") as handle:
+    with open("user_data.json", "r") as handle:
         return json.load(handle)
 
 
 def save_users(data):
-    with open("data/user_data.json", "w") as file:
+    with open("user_data.json", "w") as file:
         json.dump(data, file, indent=4)
 
 
-def is_new_user(user_id, name=None):
-    """Checks if the user_id is already registered.
-    If new, initializes the user's data.
-    Args:
-        user_id (str): Unique ID (Conversation_ID)
-        name (str, optional): The user's name if it's a new user.
-    Returns:
-        bool: True if user is new, False if already registered."""
+def is_new_user(name):
+    """Checks whether the user is new or returning.
+        Adds the user to the system if they don't exist.
+        Args:
+            name (str): The username to check.
+        Returns:
+            bool: True if the user is new, False otherwise.
+        """
+    name = name.lower()
     users = load_users()
 
-    if user_id in users:
+    if name in users:
         return False
     else:
-        users[user_id] = {
-            "name": name if name else "Unknown",
+        users[name] = {
             "seen_memes": [],
             "last_meme": None
-        }
+            }
         save_users(users)
         return True
-
 
 def welcome_user(user_id):
     """
     Greets the user based on whether they are new or returning.
     For new users, prompts for their name and stores it.
+    Returns the welcome message to be sent via WhatsApp.
     """
     users = load_users()
 
     if user_id in users:
         name = users[user_id].get("name", "friend")
-        print(f"\nWelcome back, {name}! Ready for some fresh laughs?")
+        message = f"Welcome back, {name}! Ready for some fresh laughs? 😂"
     else:
-        print("Hi there! Welcome to WhatsMEME – A place to lighten up your mood with some funny memes!\n")
+        # New user flow
+        message = "Hi there! Welcome to WhatsMEME – A place to lighten up your mood with some funny memes! 😄\n"
         name = input("Before we start, what’s your name? ").strip()
 
         users[user_id] = {
@@ -63,11 +64,13 @@ def welcome_user(user_id):
         }
         save_users(users)
 
-        print(f"\nNice to meet you, {name}!")
-        print("Let’s dive into some hilarious content!")
+        message += f"\nNice to meet you, {name}!\nLet’s dive into some hilarious content!"
 
-    return name
+    return message, name
 
+from twilio_service import send_text_message
+welcome_text, name = welcome_user("AC50210fb18dd323911dd4194788540566")
+send_text_message(welcome_text)
 
 def display_menu():
     print("\nWould you like to explore some more hilarious memes?")
