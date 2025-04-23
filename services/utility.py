@@ -1,29 +1,68 @@
-import random
+import json
+import os
+
+def load_users():
+    """
+    Loads user data from the 'users.json' file.
+    Creates an empty file if it does not exist.
+    """
+    if not os.path.exists("user_data.json"):
+        with open("user_data.json", "w") as file:
+            json.dump({}, file)
+    with open("user_data.json", "r") as handle:
+        return json.load(handle)
 
 
-def is_new_user(name):
-    """Checks whether the user is new or returning.
-    Adds the user to the system if they don't exist.
+def save_users(data):
+    with open("user_data.json", "w") as file:
+        json.dump(data, file, indent=4)
+
+
+def is_new_user(user_id, name=None):
+    """Checks if the user_id is already registered.
+    If new, initializes the user's data.
     Args:
-        name (str): The username to check.
+        user_id (str): Unique ID (Conversation_ID)
+        name (str, optional): The user's name if it's a new user.
     Returns:
-        bool: True if the user is new, False otherwise."""
-    pass
+        bool: True if user is new, False if already registered."""
+    users = load_users()
 
-def welcome_user():
-    """Greets the user, asks for their name, and identifies whether they are new or returning.
-        Provides a custom welcome message based on that.
-        Returns:
-            str: The name of the user."""
-
-    print("Hi there! Welcome to WhatsMEME – A place to lighten up your mood with some funny memes!\n")
-    name = input("Before we start, what’s your name? ").strip()
-
-    if is_new_user(name):
-        print(f"\nNice to meet you, {name}!")
-        print(f"Let’s dive into some hilarious content!")
+    if user_id in users:
+        return False
     else:
+        users[user_id] = {
+            "name": name if name else "Unknown",
+            "seen_memes": [],
+            "last_meme": None
+        }
+        save_users(users)
+        return True
+
+
+def welcome_user(user_id):
+    """
+    Greets the user based on whether they are new or returning.
+    For new users, prompts for their name and stores it.
+    """
+    users = load_users()
+
+    if user_id in users:
+        name = users[user_id].get("name", "friend")
         print(f"\nWelcome back, {name}! Ready for some fresh laughs?")
+    else:
+        print("Hi there! Welcome to WhatsMEME – A place to lighten up your mood with some funny memes!\n")
+        name = input("Before we start, what’s your name? ").strip()
+
+        users[user_id] = {
+            "name": name,
+            "seen_memes": [],
+            "last_meme": None
+        }
+        save_users(users)
+
+        print(f"\nNice to meet you, {name}!")
+        print("Let’s dive into some hilarious content!")
 
     return name
 
