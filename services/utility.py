@@ -68,9 +68,9 @@ def welcome_user(user_id):
 
     return message, name
 
-from twilio_service import send_text_message
-welcome_text, name = welcome_user("AC50210fb18dd323911dd4194788540566")
-send_text_message(welcome_text)
+#from twilio_service import send_text_message
+#welcome_text, name = welcome_user("AC50210fb18dd323911dd4194788540566")
+#send_text_message(welcome_text)
 
 def display_menu():
     print("\nWould you like to explore some more hilarious memes?")
