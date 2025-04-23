@@ -7,7 +7,7 @@ import requests
 import datetime
 from dotenv import load_dotenv
 
-from WhatsMEME.services.twilio_service import send_msg_with_media
+from services.twilio_service import send_msg_with_media
 
 
 REDDIT_MEME_URL = "https://www.reddit.com/r/memes/top/.json"
