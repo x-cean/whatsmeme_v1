@@ -15,9 +15,10 @@ user_number = os.getenv("USER_PHONE_NUMBER")
 chat_service_sid = os.getenv("CHAT_SERVICE_SID")
 client = Client(api_sid , api_secret , account_sid)
 
-conversation_sids_list = []
+
 
 def send_message(message):
+
     try:
         message = client.messages.create(
             to=f"whatsapp:{user_number}",
@@ -51,5 +52,17 @@ def list_conversations(a_chat_service_sid):
 
     for conversation in conversations:
         print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}")
+
+
+
+def get_conversation_sids():
+    conversations = client.conversations.v1.services(chat_service_sid).conversations.list()
+    conversation_sids_list = []
+    for conversation in conversations:
+        conversation_sids_list.append(conversation.sid)
+
+    return conversation_sids_list
+
+
 
 

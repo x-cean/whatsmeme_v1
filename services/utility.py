@@ -1,3 +1,6 @@
+import random
+
+
 def is_new_user(name):
     """Checks whether the user is new or returning.
     Adds the user to the system if they don't exist.
