@@ -54,7 +54,23 @@ def get_random_meme(user_name):
     Stores the meme in the user's seen history.
     Args:
         user_name (str): The name of the current user."""
-    pass
+    
+    if user_name not in user_db:
+        user_db[user_name] = {"seen_memes": []}
+
+    seen = user_db[user_name]["seen_memes"]
+    unseen_memes = [meme for meme in meme_bank if meme not in seen]
+
+    if not unseen_memes:
+        print("😅 Uh-oh! You’ve seen all our memes for now.")
+        print("Check back later when we've got more meme madness for you!")
+        return
+
+    selected_meme = random.choice(unseen_memes)
+    user_db[user_name]["seen_memes"].append(selected_meme)
+
+    print("\nHere's your random meme! 😂")
+    print(f"{selected_meme}")
 
 
 def get_meme_by_topic(user_name, topic):
