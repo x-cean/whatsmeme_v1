@@ -9,7 +9,7 @@ def get_generated_meme_from_openai(prompt):
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "hello, how are you today?"}
+                {"role": "system", "content": prompt}
             ]
         )
         print(response.choices[0].message.content)
@@ -32,4 +32,4 @@ def get_generated_meme_from_openai(prompt):
         print(f"An unexpected error occurred: {e}")
         return None
 
-get_generated_meme_from_openai("please create a cute cat picture")
+get_generated_meme_from_openai("what is the top meme of today?")
