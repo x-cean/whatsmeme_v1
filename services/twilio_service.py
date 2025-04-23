@@ -31,6 +31,9 @@ def send_text_message(text):
 
 
 def send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url):
+    """
+    send a message that includes media, media provided with url (e.g. jpg)
+    """
     try:
         message = client.messages.create(
             from_=f"whatsapp:{from_whatsapp}",  # Twilio sandbox WhatsApp number
