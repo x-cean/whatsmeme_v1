@@ -96,6 +96,12 @@ def retrieve_latest_message():
 
 
 def detect_new_incoming_msg(a_chat_service_sid, user_data):
+    """
+    loop through conversations to find updates compared to the database
+    BE AWARE THAT NOW I AM USING A SIMPLE VARIABLE FAKE USER_DATA
+    NEED TO UPDATE Tomorrow
+    also we need a separate function that just update database
+    """
     # get a list of conversations from our chat service
     conversations = client.conversations.v1.services(a_chat_service_sid).conversations.list()
 
@@ -129,6 +135,9 @@ def detect_new_incoming_msg(a_chat_service_sid, user_data):
 
 
 def keep_simple_polling(a_conversation_sid, interval):
+    """
+    keeps running with a time interval
+    """
     print(f"Monitoring Conversation: {a_conversation_sid}")
     while True:
         detect_new_incoming_msg(chat_service_sid, user_data_just_a_demo)
