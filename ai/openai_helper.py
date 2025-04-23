@@ -32,4 +32,24 @@ def get_generated_meme_from_openai(prompt):
         print(f"An unexpected error occurred: {e}")
         return None
 
-get_generated_meme_from_openai("what is the top meme of today?")
+
+def get_text_response_from_openai(prompt):
+    try:
+        client = OpenAI()
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": prompt}
+            ]
+        )
+        print(response.choices[0].message.content)
+
+    except OpenAIError as e:
+        print(f"An OpenAI error occurred: {e}")
+        return None
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return None
+
+
+# get_text_response_from_openai("wow wow wow who is here")

@@ -8,6 +8,7 @@ import datetime
 from dotenv import load_dotenv
 
 from services.twilio_service import send_msg_with_media
+from ai.openai_helper import get_generated_meme_from_openai
 
 
 REDDIT_MEME_URL = "https://www.reddit.com/r/memes/top/.json"
@@ -62,6 +63,10 @@ def get_top_meme_of_the_year():
 def get_random_meme():
     pass
     # feasible, need a reddit developer account, will take care of this later
+
+
+def get_AI_response_to_meme_title(meme_text):
+
 
 
 def send_meme_via_whatsapp(from_whatsapp, to_whatsapp):
