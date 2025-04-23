@@ -37,7 +37,16 @@ def display_menu():
 def show_help_menu():
     """Displays help instructions for navigating the WhatsMEME app.
     Explains how to choose options and use the available features."""
-    pass
+    print("\n--- WhatsMEME Help Menu ---")
+    print("Here's a quick guide to brighten your day with memes:")
+    print("1 - Get a random meme:")
+    print("    We'll surprise you with a meme from our hilarious collection.")
+    print("2 - Choose a meme by topic or mood:")
+    print("    Feeling something specific? Just tell us your vibe – like 'cats', 'work', or 'weekend' – and we’ll match a meme to it.")
+    print("3 - Generate your own meme:")
+    print("    Be the meme-maker! Describe your ideal meme and add your own caption.")
+    print("'help' - View this menu anytime.")
+    print("'exit' - Leave WhatsMEME (but come back soon for more laughs!)\n")
 
 
 def get_random_meme(user_name):
@@ -45,7 +54,23 @@ def get_random_meme(user_name):
     Stores the meme in the user's seen history.
     Args:
         user_name (str): The name of the current user."""
-    pass
+    
+    if user_name not in user_db:
+        user_db[user_name] = {"seen_memes": []}
+
+    seen = user_db[user_name]["seen_memes"]
+    unseen_memes = [meme for meme in meme_bank if meme not in seen]
+
+    if not unseen_memes:
+        print("😅 Uh-oh! You’ve seen all our memes for now.")
+        print("Check back later when we've got more meme madness for you!")
+        return
+
+    selected_meme = random.choice(unseen_memes)
+    user_db[user_name]["seen_memes"].append(selected_meme)
+
+    print("\nHere's your random meme! 😂")
+    print(f"{selected_meme}")
 
 
 def get_meme_by_topic(user_name, topic):
