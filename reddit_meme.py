@@ -40,7 +40,7 @@ def get_top_meme_of_the_time(time): # "week"
     image_url = top_post.get('url_overridden_by_dest', 'No image')
     permalink = f"https://reddit.com{top_post['permalink']}"
 
-    text = f"Hohoho, as of today {datetime.datetime.today().date()}, the top meme of the {time} is: {title}"
+    text = f"Hohoho, as of today, {datetime.datetime.today().date()}, the top meme of the {time} is: {title}"
     return text, image_url, permalink
 
 
