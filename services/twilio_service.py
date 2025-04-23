@@ -1,4 +1,6 @@
 import os
+import time
+import datetime
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 from dotenv import load_dotenv
@@ -91,3 +93,68 @@ def retrieve_latest_message():
         latest_message = messages[0]
         if latest_message.to == f"whatsapp:{twilio_number}" and latest_message.from_ == f"whatsapp:{user_number}":
             return latest_message.body
+
+
+def detect_new_incoming_msg(a_chat_service_sid, user_data):
+    # get a list of conversations from our chat service
+    conversations = client.conversations.v1.services(a_chat_service_sid).conversations.list()
+
+    # condition_1: new user, new conversation id
+    if len(conversations) > len(user_data):
+        for conversation in conversations:
+            if conversation.sid not in user_data:
+                pass # here needs to update database
+                print("New conversation detected:", conversation.sid)
+                return conversation.sid, conversation.messages.list()[-1].body.title() # assume that this is newest
+
+    # condition_2: same users, then loop to see whether there's new msg
+    elif len(conversations) == len(user_data):
+        for conversation in conversations:
+            latest_msg = conversation.messages.list()[-1].body.title()
+            if latest_msg != user_data[conversation.sid]["Last message"]:
+                user_data[conversation.sid]["Last message"] = latest_msg
+                print("New message detected:", conversation.sid, latest_msg)
+                return conversation.sid, latest_msg
+
+    # condition_3: deleted conversation detected, then remove it from database
+    else:
+        conversations_lst = []
+        for conversation in conversations:
+            conversations_lst.append(conversation.sid)
+        for user_sid in user_data:
+            if user_sid not in conversations_lst:
+                user_data.delete(user_sid)
+                print("A conversation was gone, we remove it from our database too")
+                return
+
+
+def keep_simple_polling(a_conversation_sid, interval):
+    print(f"Monitoring Conversation: {a_conversation_sid}")
+    while True:
+        detect_new_incoming_msg(chat_service_sid, user_data_just_a_demo)
+        print(datetime.datetime.now())
+        time.sleep(interval) # take a break, int seconds
+
+
+# what do we need in the database???
+user_data_just_a_demo = {
+    "CH8832e427c1d646daa19fdd10181185c3":
+        {"Conversation Friendly Name": "RunOutOfSnacks",
+         "Last message": "A space holder for testing",
+         },
+    "CH49209d41e3604a9b85598ebb7f4ecd65":
+        {"Conversation Friendly Name": "RandomFriendlyName",
+         "Last message": "Hi"
+         },
+    "CHa5e5424de3874cf8bb2205ddf64e25d9":
+        {"Conversation Friendly Name": "RunOutOfSnacks",
+         "Last message": "Best Meme Of The Day",
+         },
+    "CH0e1b7455098a4828a3c9cfba68565132":
+        {"Conversation Friendly Name": "RunOutOfSnacks",
+         "Last message": "Hello",
+         },
+}
+
+
+keep_simple_polling(chat_service_sid, 5)
