@@ -121,6 +121,8 @@ def detect_new_incoming_msg(a_chat_service_sid, user_data):
                 user_data[conversation.sid]["Last message"] = latest_msg
                 print("New message detected:", conversation.sid, latest_msg)
                 return conversation.sid, latest_msg
+            else:
+                return
 
     # condition_3: deleted conversation detected, then remove it from database
     else:
@@ -131,16 +133,20 @@ def detect_new_incoming_msg(a_chat_service_sid, user_data):
             if user_sid not in conversations_lst:
                 user_data.delete(user_sid)
                 print("A conversation was gone, we remove it from our database too")
-                return
+                return "", ""
 
 
 def keep_simple_polling(a_conversation_sid, interval):
     """
     keeps running with a time interval
     """
-    print(f"Monitoring Conversation: {a_conversation_sid}")
+    print(f"Monitoring Conversations: {a_conversation_sid}")
     while True:
-        detect_new_incoming_msg(chat_service_sid, user_data_just_a_demo)
+        new_conversation_info = detect_new_incoming_msg(chat_service_sid, user_data_just_a_demo)
+        if new_conversation_info:
+            conv_id, msg = new_conversation_info
+            if conv_id != "" and msg != "":
+                return conv_id, msg
         print(datetime.datetime.now())
         time.sleep(interval) # take a break, int seconds
 
@@ -149,7 +155,7 @@ def keep_simple_polling(a_conversation_sid, interval):
 user_data_just_a_demo = {
     "CH8832e427c1d646daa19fdd10181185c3":
         {"Conversation Friendly Name": "RunOutOfSnacks",
-         "Last message": "A space holder for testing",
+         "Last message": "Why",
          },
     "CH49209d41e3604a9b85598ebb7f4ecd65":
         {"Conversation Friendly Name": "RandomFriendlyName",
@@ -166,4 +172,4 @@ user_data_just_a_demo = {
 }
 
 
-keep_simple_polling(chat_service_sid, 5)
+# keep_simple_polling(chat_service_sid, 5)
