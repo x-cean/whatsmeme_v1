@@ -66,17 +66,23 @@ def get_random_meme():
 
 
 def get_ai_response_to_meme_title(meme_text):
+    """
+    ai receives text and return response
+    """
     print(get_text_response_from_openai(meme_text))
     print(type(get_text_response_from_openai(meme_text)))
     return get_text_response_from_openai(meme_text)
 
 
 def send_meme_via_whatsapp(from_whatsapp, to_whatsapp):
+    """
+    send a customized meme via whatsapp
+    including meme intro, meme title, AI comment and of course the meme displayed in media form
+    """
     meme_info = get_top_meme_of_the_month()
     meme_text = meme_info[0]
-    ai_comment = get_ai_response_to_meme_title(meme_text)
-    # body = meme_text + ai_comment
-    body = meme_text
+    ai_comment = get_ai_response_to_meme_title(meme_text + "Please respond in 1 or 2 short sentences.")
+    body = meme_text + "\n\n" + ai_comment
     media_url = meme_info[1]
     send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url)
 
