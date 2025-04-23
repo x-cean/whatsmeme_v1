@@ -59,3 +59,9 @@ def get_random_meme():
     # feasible, need a reddit developer account, will take care of this later
 
 
+get_top_meme_of_the_day()
+def send_meme_via_whatsapp(from_whatsapp, to_whatsapp):
+    meme_info = get_top_meme_of_the_month()
+    body = meme_info[0]
+    media_url = meme_info[1]
+    send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url)
