@@ -31,6 +31,21 @@ def send_message(message):
         print(f"An unexpected error has occurred: {e}")
 
 
+def send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url):
+    try:
+        message = client.messages.create(
+            from_='whatsapp:+14155238886',  # Twilio sandbox WhatsApp number
+            body='Here is the image you requested!',
+            media_url=['https://example.com/path/to/image.jpg'],
+            to='whatsapp:+1234567890'  # Recipient's WhatsApp number
+        )
+        print(message.sid)
+    except TwilioRestException as e:
+        print(f"An error has occurred: {e}")
+    except Exception as e:
+        print(f"An unexpected error has occurred: {e}")
+
+
 def update_conversation_friendly_name(a_conversation_sid, friendly_name: str):
     """
     the conversations were given real phone numbers as friendly name,
