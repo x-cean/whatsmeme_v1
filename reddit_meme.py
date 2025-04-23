@@ -2,14 +2,17 @@
 Using APIs to get Memes
 """
 
-
+import os
 import requests
 import datetime
+from dotenv import load_dotenv
 
 from WhatsMEME.services.twilio_service import send_msg_with_media
 
 
 REDDIT_MEME_URL = "https://www.reddit.com/r/memes/top/.json"
+twilio_number = os.getenv("TWILIO_PHONE_NUMBER")
+user_number = os.getenv("USER_PHONE_NUMBER")
 
 
 def get_top_meme_of_the_time(time): # "week"
@@ -61,9 +64,11 @@ def get_random_meme():
     # feasible, need a reddit developer account, will take care of this later
 
 
-get_top_meme_of_the_day()
 def send_meme_via_whatsapp(from_whatsapp, to_whatsapp):
     meme_info = get_top_meme_of_the_month()
     body = meme_info[0]
     media_url = meme_info[1]
     send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url)
+
+
+send_meme_via_whatsapp(twilio_number, user_number)

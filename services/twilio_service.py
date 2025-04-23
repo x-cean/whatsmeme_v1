@@ -34,10 +34,10 @@ def send_message(message):
 def send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url):
     try:
         message = client.messages.create(
-            from_='whatsapp:+14155238886',  # Twilio sandbox WhatsApp number
-            body='Here is the image you requested!',
-            media_url=['https://example.com/path/to/image.jpg'],
-            to='whatsapp:+1234567890'  # Recipient's WhatsApp number
+            from_=f"whatsapp:{from_whatsapp}",  # Twilio sandbox WhatsApp number
+            body=body,
+            media_url=[media_url],
+            to=f"whatsapp:{to_whatsapp}"  # Recipient's WhatsApp number
         )
         print(message.sid)
     except TwilioRestException as e:
