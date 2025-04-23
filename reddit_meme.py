@@ -79,7 +79,7 @@ def send_meme_via_whatsapp(from_whatsapp, to_whatsapp):
     send a customized meme via whatsapp
     including meme intro, meme title, AI comment and of course the meme displayed in media form
     """
-    meme_info = get_top_meme_of_the_month()
+    meme_info = get_top_meme_of_the_day()
     meme_text = meme_info[0]
     ai_comment = get_ai_response_to_meme_title(meme_text + "Please respond in 1 or 2 short sentences.")
     body = meme_text + "\n\n" + ai_comment
