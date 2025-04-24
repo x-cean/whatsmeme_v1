@@ -35,17 +35,17 @@ def main_mvp_script():
             print(new_to_whatsapp, type(new_to_whatsapp))
             if is_new_msg:
                 if is_first_message:
-                    send_text_message(new_to_whatsapp, "Hi there! Welcome to WhatsMEME – a place to lighten up your mood with some funny memes! 😄")
+                    send_text_message(new_to_whatsapp, "Heyo! You got the first message of our today's run!")
                     is_first_message = False
                 if is_new_user:
                     #to_whatsapp =
                     #welcome_new_user()
                     # for now this is specific for new user
                     send_text_message(new_to_whatsapp,
-                                      "Great that you found us! We love to share memes and happiness!")
+                                      "Welcome to WhatsMEME – great that you found us! We love to share memes and happiness!")
                     add_user(conver_id, {"name": "SPACEHOLDER"})
                 if conver_id != "" and latest_msg != "":
-                    send_text_message(new_to_whatsapp, "Do you want the meme of the day? Type '1'! Or do you want to generate a meme? Type '2'")
+                    # send_text_message(new_to_whatsapp, "Do you want the meme of the day? Type '1'! Or do you want to generate a meme? Type '2'")
                     first_reply_to_new_msg = get_text_response_from_openai(
                         latest_msg + "Respond in 2 to 3 sentences, then say sth like 'I want to share something to make it a better day for you!' but change the quote slightly")
                     send_text_message(new_to_whatsapp, first_reply_to_new_msg)
