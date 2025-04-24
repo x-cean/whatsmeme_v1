@@ -25,26 +25,31 @@ def is_new_user(chat_id):
         save_users(users)
         return True
 
-def welcome_user(user_id):
+
+def welcome_user(chat_id):
     """
     Greets the user based on whether they are new or returning.
     For new users, prompts for their name and stores it.
     Returns the welcome message to be sent via WhatsApp.
     """
-    users = load_users()
 
-    if user_id in users:
-        name = users[user_id].get("name", "friend")
+    #TODO send request for name if the user is new. accept the next message and assign it to name
+
+    users = load_users()
+    chat_id = str(chat_id)
+    if chat_id in users.keys():
+        name = users[chat_id].get("name", "friend")
         message = f"Welcome back, {name}! Ready for some fresh laughs? 😂"
     else:
         # New user flow
         message = "Hi there! Welcome to WhatsMEME – A place to lighten up your mood with some funny memes! 😄\n"
         name = input("Before we start, what’s your name? ").strip()
 
-        users[user_id] = {
+        users[chat_id] = {
             "name": name,
-            "seen_memes": [],
-            "last_meme": None
+            "conversation_friendly_name": "",
+            "last_message": "",
+            "total_number_of_msg": ""
         }
         save_users(users)
 
