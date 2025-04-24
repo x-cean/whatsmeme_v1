@@ -5,6 +5,14 @@ from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 from dotenv import load_dotenv
 
+# connect database
+# build the loop better, using msg numbers
+# get random meme
+# ai generator
+# dropdown menu / text menu
+
+## when more people are connecting at the same time
+
 load_dotenv()
 
 account_sid = os.getenv("MS_TWILIO_ACCOUNT_SID")
@@ -156,6 +164,7 @@ user_data_just_a_demo = {
     "CH8832e427c1d646daa19fdd10181185c3":
         {"Conversation Friendly Name": "RunOutOfSnacks",
          "Last message": "Why",
+         "Total number of msg": 10,
          },
     "CH49209d41e3604a9b85598ebb7f4ecd65":
         {"Conversation Friendly Name": "RandomFriendlyName",
