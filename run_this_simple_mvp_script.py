@@ -18,6 +18,7 @@ user_number = os.getenv("USER_PHONE_NUMBER")
 chat_service_sid = os.getenv("CHAT_SERVICE_SID")
 
 
+
 def main_mvp_script():
     # create a while loop with 5s time breaks
     print(f"Monitoring Conversations: {chat_service_sid}")
