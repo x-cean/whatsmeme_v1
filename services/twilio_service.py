@@ -131,9 +131,8 @@ def detect_new_incoming_msg(a_chat_service_sid: str, user_data: dict):
                 is_new_user = True
                 is_new_msg = True
                 latest_msg = conversation.messages.list()[-1].body.title()
-                friendly_name = conversation.friendly_name
                 new_total_msg = len(conversation.messages.list())
-                return is_new_user, is_new_msg, conversation.sid, latest_msg, friendly_name, new_total_msg
+                return is_new_user, is_new_msg, conversation.sid, latest_msg, new_total_msg
 
     # condition_2: same users, then loop to see whether there's new msg
     elif len(conversations) == len(user_data):
@@ -146,9 +145,8 @@ def detect_new_incoming_msg(a_chat_service_sid: str, user_data: dict):
                 if latest_msg != user_data[conversation.sid]["Last message"]:
                     user_data[conversation.sid]["Last message"] = latest_msg
                     print("New message detected:", conversation.sid, latest_msg)
-                    friendly_name = conversation.friendly_name
                     new_total_msg = len(conversation.messages.list())
-                    return is_new_user, is_new_msg, conversation.sid, latest_msg, friendly_name, new_total_msg
+                    return is_new_user, is_new_msg, conversation.sid, latest_msg, new_total_msg
             else:
                 return
 
