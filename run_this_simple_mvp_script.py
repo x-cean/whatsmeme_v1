@@ -30,6 +30,7 @@ def main_mvp_script():
                 if conver_id != "" and latest_msg != "":
                     first_reply_to_new_msg = get_text_response_from_openai(
                         latest_msg + "Respond in 2 to 3 sentences, then say sth like 'I want to share something to make it a better day for you!' but change the quote slightly")
+                    pass # add number
                     send_text_message(first_reply_to_new_msg)
                     send_meme_via_whatsapp(twilio_number, user_number)
                     pass # update database

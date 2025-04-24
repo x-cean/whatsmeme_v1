@@ -33,16 +33,17 @@ api_secret = os.getenv("MS_TWILIO_API_KEY_SECRET")
 twilio_number = os.getenv("TWILIO_PHONE_NUMBER")
 user_number = os.getenv("USER_PHONE_NUMBER")
 chat_service_sid = os.getenv("CHAT_SERVICE_SID")
+programmer_conversation_sid = os.getenv("CONVERSATION_SID")
 
 client = Client(api_sid, api_secret, account_sid)
 print("Client initialized:", client)
 
 
-def send_text_message(text):
+def send_text_message(to_whatsapp, text):
     """sends a text message (provided in the arguments) to the user_number via whatsapp"""
     try:
         message = client.messages.create(
-            to=f"whatsapp:{user_number}",
+            to=f"whatsapp:{to_whatsapp}",
             from_=f"whatsapp:{twilio_number}",
             body=text)
         print(message.status)
@@ -81,6 +82,7 @@ def update_conversation_friendly_name(a_conversation_sid, friendly_name: str):
         .conversations(a_conversation_sid)
         .update(friendly_name=friendly_name)
     )
+# update_conversation_friendly_name(programmer_conversation_sid, "Subscriber +49number")
 
 
 def get_conversation_sids():
@@ -167,6 +169,13 @@ def list_conversations(a_chat_service_sid):
               {conversation.friendly_name})
 # list_conversations(chat_service_sid)
 
+
+def get_user_whatsapp_via_friendly_name(a_conversation_sid):
+    conversation = client.conversations.v1.services(chat_service_sid).conversations(a_conversation_sid).fetch()
+    friendly_name = conversation.friendly_name.split(" ")
+    detected_whatsapp = friendly_name[1].strip()
+    return detected_whatsapp
+# print(get_user_whatsapp_via_friendly_name(programmer_conversation_sid))
 
 # def keep_simple_polling_and_react(a_chat_service_sid, interval):
 #     """
