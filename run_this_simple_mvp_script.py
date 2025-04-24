@@ -15,7 +15,11 @@ user_number = os.getenv("USER_PHONE_NUMBER")
 chat_service_sid = os.getenv("CHAT_SERVICE_SID")
 
 
-def main_mvp():
+def main_mvp_script():
+    pass
+
+
+def backup_main_mvp():
     """
     when this is running, it detects new incoming msg
     if found, will answer it (with ai), and share a top meme of the day
@@ -32,4 +36,3 @@ def main_mvp():
         first_reply_to_new_msg = get_text_response_from_openai(msg + "Respond in 2 to 3 sentences, then say sth like 'I want to share something to make it a better day for you!' but change the quote slightly")
         send_text_message(first_reply_to_new_msg)
         send_meme_via_whatsapp(twilio_number, user_number)
-main_mvp()

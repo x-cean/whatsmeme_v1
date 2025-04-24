@@ -168,7 +168,7 @@ def detect_new_incoming_msg(a_chat_service_sid: str, user_data: dict):
                 return
 
 
-def keep_simple_polling(a_conversation_sid, interval):
+def keep_simple_polling_and_react(a_conversation_sid, interval):
     """
     keeps running with a time interval
     """
