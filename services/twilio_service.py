@@ -84,6 +84,8 @@ def update_conversation_friendly_name(a_conversation_sid, friendly_name: str):
     )
 # update_conversation_friendly_name(programmer_conversation_sid, "Subscriber +49number")
 
+list_conversations(chat_service_sid)
+
 
 def get_conversation_sids():
     conversations = client.conversations.v1.services(chat_service_sid).conversations.list()

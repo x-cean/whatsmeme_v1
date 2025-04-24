@@ -1,3 +1,5 @@
+import time
+
 from dotenv import load_dotenv
 from ai.openai_helper import get_generated_meme_from_openai
 from services.twilio_service import get_conversation_sids, send_msg_with_media, send_text_message, retrieve_latest_message
@@ -21,6 +23,8 @@ send_meme_via_whatsapp(twilio_number, user_number)
 
 
 
+
+#
 # while True:
 #
 #     chat_ids = get_conversation_sids()
@@ -46,6 +50,7 @@ send_meme_via_whatsapp(twilio_number, user_number)
 #             elif latest_messages[0] == 3:
 #                 send_text_message("What kind of meme should it be? Give me a short description!")
 #                 while True:
+#                     time.sleep(5)
 #                     latest_messages = retrieve_latest_message()
 #                     if latest_messages[0] == 3:
 #                         continue
@@ -53,7 +58,5 @@ send_meme_via_whatsapp(twilio_number, user_number)
 #                     send_msg_with_media(twilio_number, user_number, "Here is your AI generated picture!", get_generated_meme_from_openai(prompt))
 #                     break
 #
-#
-
 
 

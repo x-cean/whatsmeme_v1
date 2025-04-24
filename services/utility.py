@@ -1,53 +1,24 @@
 import json
 import os
 import random
+from data.json_data_manager import load_users, add_user, save_users
 
 
-def load_users():
-    """
-    Loads user data from the 'user_data.json' file.
-    Creates an empty file if it does not exist.
-    """
-
-    try:
-        if not os.path.exists("data/user_data.json"):
-            with open("data/user_data.json", "w") as file:
-                json.dump({}, file)
-        with open("data/user_data.json", "r") as handle:
-            return json.load(handle)
-    except json.JSONDecodeError:
-        print("Error: The JSON in 'data/user_data.json' is invalid. Returning empty dict.")
-        return {}
-
-    except (OSError, IOError) as e:
-        print(f"File error: {e}")
-        return {}
-
-    except Exception as e:
-        print(f"Unexpected error: {e}")
-        return {}
-
-
-def save_users(data):
-    with open("user_data.json", "w") as file:
-        json.dump(data, file, indent=4)
-
-
-def is_new_user(name):
+def is_new_user(chat_id):
     """Checks whether the user is new or returning.
         Adds the user to the system if they don't exist.
         Args:
-            name (str): The username to check.
+            chat_id - the unique chat id to check
         Returns:
             bool: True if the user is new, False otherwise.
         """
-    name = name.lower()
     users = load_users()
+    print(users)
 
-    if name in users:
+    if chat_id in users.keys():
         return False
     else:
-        users[name] = {
+        users[chat_id] = {
             "seen_memes": [],
             "last_meme": None
             }
