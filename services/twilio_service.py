@@ -168,9 +168,10 @@ def list_conversations(a_chat_service_sid):
 
     for conversation in conversations:
         conver_length = len(conversation.messages.list())
+        latest_msg = conversation.messages.list()[-1].body.title()
         print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}, Total messages: {conver_length}",
-              {conversation.friendly_name})
-# list_conversations(chat_service_sid)
+              latest_msg)
+list_conversations(chat_service_sid)
 
 
 def get_user_whatsapp_via_friendly_name(a_conversation_sid):
@@ -200,23 +201,23 @@ user_data_just_a_demo = {
     "CH8832e427c1d646daa19fdd10181185c3":
         {"Conversation Friendly Name": "RunOutOfSnacks",
          "Last message": "Bye",
-         "Total number of msg": 21,
+         "Total number of msg": 29,
          },
     "CH49209d41e3604a9b85598ebb7f4ecd65":
         {"Conversation Friendly Name": "RandomFriendlyName",
-         "Last message": "Bye", "Total number of msg": 2,
+         "Last message": "Bye", "Total number of msg": 6,
          },
     "CHa5e5424de3874cf8bb2205ddf64e25d9":
         {"Conversation Friendly Name": "RunOutOfSnacks",
-         "Last message": "Bye", "Total number of msg": 3,
+         "Last message": "Bye", "Total number of msg": 15,
          },
     "CH0e1b7455098a4828a3c9cfba68565132":
         {"Conversation Friendly Name": "RunOutOfSnackssnacks",
-         "Last message": "Bye", "Total number of msg": 12,
+         "Last message": "Bye", "Total number of msg": 18,
          },
     "CH490cf1c182714b6db91d90a9976797b9":
         {"Conversation Friendly Name": "RunOutOfSnackssnacks",
-         "Last message": "Bye", "Total number of msg": 8,
+         "Last message": "Bye", "Total number of msg": 3,
          },
 }
 
