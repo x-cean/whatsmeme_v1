@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 # get random meme
 
-# connect database *** xiao
+# connect database *** elinor
 
 # build the loop better, using msg numbers *** xiao
 
@@ -88,7 +88,8 @@ def list_conversations(a_chat_service_sid):
     conversations = client.conversations.v1.services(a_chat_service_sid).conversations.list()
 
     for conversation in conversations:
-        print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}")
+        print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}", {conversation.friendly_name})
+list_conversations(chat_service_sid)
 
 
 def get_conversation_sids():
