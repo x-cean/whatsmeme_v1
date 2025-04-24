@@ -90,7 +90,7 @@ def get_ai_response_to_meme_title(meme_text):
     return get_text_response_from_openai(meme_text)
 
 
-def send_top_meme_via_whatsapp(from_whatsapp, to_whatsapp):
+def send_meme_via_whatsapp(from_whatsapp, to_whatsapp):
     from services.twilio_service import send_msg_with_media
 
     meme_info = get_top_meme_of_the_day()
