@@ -52,10 +52,11 @@ def main_mvp_script():
                 if conver_id != "" and latest_msg != "":
                     # send_text_message(new_to_whatsapp, "Do you want the meme of the day? Type '1'! Or do you want to generate a meme? Type '2'")
                     first_reply_to_new_msg = get_text_response_from_openai(
-                        latest_msg + "Respond in 2 to 3 sentences, then say sth like 'I want to share something to make it a better day for you!' but change the quote slightly")
+                        latest_msg + "Respond in 2 short sentences, then say sth like 'I want to share something to make it a better day for you!', change the quote but means the same, or similar")
                     send_text_message(new_to_whatsapp, first_reply_to_new_msg)
                     send_random_meme_via_whatsapp(twilio_number, new_to_whatsapp)
-                    # here add the drop-down menu
+                    # here can add the drop-down menu
+
                     update_user(conver_id, {"latest_message": latest_msg, "total_number_of_msg": number_of_msg})
 
         print(datetime.datetime.now())
