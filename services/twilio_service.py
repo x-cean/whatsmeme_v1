@@ -168,19 +168,19 @@ def detect_new_incoming_msg(a_chat_service_sid: str, user_data: dict):
                 return
 
 
-def keep_simple_polling_and_react(a_conversation_sid, interval):
-    """
-    keeps running with a time interval
-    """
-    print(f"Monitoring Conversations: {a_conversation_sid}")
-    while True:
-        new_conversation_info = detect_new_incoming_msg(chat_service_sid, user_data_just_a_demo)
-        if new_conversation_info:
-            new_user, new_msg, conver_id, latest_msg = new_conversation_info
-            if conver_id != "" and latest_msg != "":
-                return conver_id, latest_msg
-        print(datetime.datetime.now())
-        time.sleep(interval) # take a break, int seconds
+# def keep_simple_polling_and_react(a_chat_service_sid, interval):
+#     """
+#     keeps running with a time interval
+#     """
+#     print(f"Monitoring Conversations: {a_chat_service_sid}")
+#     while True:
+#         new_conversation_info = detect_new_incoming_msg(chat_service_sid, user_data_just_a_demo)
+#         if new_conversation_info:
+#             new_user, new_msg, conver_id, latest_msg = new_conversation_info
+#             if conver_id != "" and latest_msg != "":
+#                 return conver_id, latest_msg
+#         print(datetime.datetime.now())
+#         time.sleep(interval) # take a break, int seconds
 
 
 # what do we need in the database???
