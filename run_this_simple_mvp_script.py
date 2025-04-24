@@ -49,7 +49,7 @@ def main_mvp_script():
                     first_reply_to_new_msg = get_text_response_from_openai(
                         latest_msg + "Respond in 2 to 3 sentences, then say sth like 'I want to share something to make it a better day for you!' but change the quote slightly")
                     send_text_message(new_to_whatsapp, first_reply_to_new_msg)
-                    send_meme_via_whatsapp(twilio_number, new_to_whatsapp)
+                    send_random_meme_via_whatsapp(twilio_number, new_to_whatsapp)
                     update_user(conver_id, {"latest_message": latest_msg, "total_number_of_msg": number_of_msg})
 
         print(datetime.datetime.now())

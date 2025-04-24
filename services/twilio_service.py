@@ -4,6 +4,7 @@ import datetime
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 from dotenv import load_dotenv
+
 from reddit_meme import get_top_meme_of_the_day, get_random_meme, send_meme_via_whatsapp
 
 # get random meme
