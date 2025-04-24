@@ -196,24 +196,24 @@ def get_user_whatsapp_via_friendly_name(a_conversation_sid):
 user_data_just_a_demo = {
     "CH8832e427c1d646daa19fdd10181185c3":
         {"Conversation Friendly Name": "RunOutOfSnacks",
-         "Last message": "Why",
+         "Last message": "Bye",
          "Total number of msg": 21,
          },
     "CH49209d41e3604a9b85598ebb7f4ecd65":
         {"Conversation Friendly Name": "RandomFriendlyName",
-         "Last message": "Hi", "Total number of msg": 2,
+         "Last message": "Bye", "Total number of msg": 2,
          },
     "CHa5e5424de3874cf8bb2205ddf64e25d9":
         {"Conversation Friendly Name": "RunOutOfSnacks",
-         "Last message": "Best Meme Of The Day", "Total number of msg": 3,
+         "Last message": "Bye", "Total number of msg": 3,
          },
     "CH0e1b7455098a4828a3c9cfba68565132":
         {"Conversation Friendly Name": "RunOutOfSnackssnacks",
-         "Last message": "Hello", "Total number of msg": 12,
+         "Last message": "Bye", "Total number of msg": 12,
          },
     "CH490cf1c182714b6db91d90a9976797b9":
         {"Conversation Friendly Name": "RunOutOfSnackssnacks",
-         "Last message": "Hello", "Total number of msg": 8,
+         "Last message": "Bye", "Total number of msg": 8,
          },
 }
 
