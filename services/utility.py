@@ -2,9 +2,11 @@ import json
 import os
 import random
 from data.json_data_manager import load_users, add_user, save_users
+from services.twilio_service import send_text_message
 
 
 def is_new_user(chat_id):
+    #TODO is this method needed? we are checking for new user in our main
     """Checks whether the user is new or returning.
         Adds the user to the system if they don't exist.
         Args:

@@ -1,4 +1,5 @@
 import json
+from json import JSONDecodeError
 
 
 def load_users():
@@ -8,7 +9,7 @@ def load_users():
         with open("user_data.json") as handle:
             data = json.load(handle)
             return data
-    except FileNotFoundError:
+    except (FileNotFoundError, JSONDecodeError):
         with open("user_data.json", "w") as handle:
             json.dump({}, handle)
         return {}
