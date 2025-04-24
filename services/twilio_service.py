@@ -83,19 +83,6 @@ def update_conversation_friendly_name(a_conversation_sid, friendly_name: str):
     )
 
 
-def list_conversations(a_chat_service_sid):
-    """
-    lists conversations from Twilio in a specific chat service
-    """
-    conversations = client.conversations.v1.services(a_chat_service_sid).conversations.list()
-
-    for conversation in conversations:
-        conver_length = len(conversation.messages.list())
-        print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}, Total messages: {conver_length}",
-              {conversation.friendly_name})
-list_conversations(chat_service_sid)
-
-
 def get_conversation_sids():
     conversations = client.conversations.v1.services(chat_service_sid).conversations.list()
     conversation_sids_list = []
@@ -168,6 +155,19 @@ def detect_new_incoming_msg(a_chat_service_sid: str, user_data: dict):
                 return
 
 
+def list_conversations(a_chat_service_sid):
+    """
+    lists conversations from Twilio in a specific chat service
+    """
+    conversations = client.conversations.v1.services(a_chat_service_sid).conversations.list()
+
+    for conversation in conversations:
+        conver_length = len(conversation.messages.list())
+        print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}, Total messages: {conver_length}",
+              {conversation.friendly_name})
+# list_conversations(chat_service_sid)
+
+
 # def keep_simple_polling_and_react(a_chat_service_sid, interval):
 #     """
 #     keeps running with a time interval
@@ -209,4 +209,4 @@ user_data_just_a_demo = {
 }
 
 
-keep_simple_polling(chat_service_sid, 5)
+# keep_simple_polling(chat_service_sid, 5)
