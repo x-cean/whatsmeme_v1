@@ -32,7 +32,7 @@ def main_mvp_script():
         if new_conversation_info:
             is_new_user, is_new_msg, conver_id, latest_msg, number_of_msg = new_conversation_info
             new_to_whatsapp = get_user_whatsapp_via_friendly_name(conver_id)
-            print(new_to_whatsapp, type(new_to_whatsapp))
+            print(new_to_whatsapp, type(new_to_whatsapp)) # just for backend monitoring
             if is_new_msg:
                 if is_first_message:
                     send_text_message(new_to_whatsapp, "Heyo! You got the first message of our today's run!")

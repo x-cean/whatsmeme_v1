@@ -14,7 +14,8 @@ user_number = os.getenv("USER_PHONE_NUMBER")
 
 
 #AI generation of pictures works
-prompt = "A grumpy cat sitting at a computer desk, wearing glasses, surrounded by coffee cups and messy paperwork, looking completely done with life. The background is a chaotic home office. The scene is cartoonish with exaggerated facial expressions, in the style of a relatable internet meme."
+prompt = "A grumpy cat sitting at a computer desk, wearing glasses, surrounded by coffee cups and messy paperwork, looking completely done with life. The background is a chaotic home office. The scene is cartoonish with exaggerated facial expressions, in the style of a relatable internet meme. With the meme written in the picture in an obvious way."
+send_text_message(user_number, "Generating your meme picture, please wait...")
 send_msg_with_media(twilio_number, user_number, "Here is your picture!", get_generated_meme_from_openai(prompt))
 
 #sending top meme of the day with AI comment works
