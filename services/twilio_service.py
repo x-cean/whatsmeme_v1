@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 
 # get random meme
 
+# presentation *** andrew and lukas
+
 # connect database *** elinor
 
 # build the loop better, using msg numbers *** xiao
@@ -114,7 +116,7 @@ def retrieve_latest_message():
             return latest_message.body
 
 
-def detect_new_incoming_msg(a_chat_service_sid, user_data):
+def detect_new_incoming_msg(a_chat_service_sid: str, user_data: dict, new_user: bool):
     """
     loop through conversations to find updates compared to the database
     BE AWARE THAT NOW I AM USING A SIMPLE VARIABLE FAKE USER_DATA
@@ -123,14 +125,16 @@ def detect_new_incoming_msg(a_chat_service_sid, user_data):
     """
     # get a list of conversations from our chat service
     conversations = client.conversations.v1.services(a_chat_service_sid).conversations.list()
+    new_user = False
 
     # condition_1: new user, new conversation id
     if len(conversations) > len(user_data):
         for conversation in conversations:
             if conversation.sid not in user_data:
-                pass # here needs to update database
                 print("New conversation detected:", conversation.sid)
-                return conversation.sid, conversation.messages.list()[-1].body.title() # assume that this is newest
+                new_user = True
+                latest_msg = conversation.messages.list()[-1].body.title()
+                return new_user, conversation.sid, latest_msg
 
     # condition_2: same users, then loop to see whether there's new msg
     elif len(conversations) == len(user_data):
