@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from ai.openai_helper import get_generated_meme_from_openai, get_text_response_from_openai
 from services.twilio_service import get_conversation_sids, send_msg_with_media, send_text_message, retrieve_latest_message, detect_new_incoming_msg, get_user_whatsapp_via_friendly_name
 from services.utility import welcome_user
-from reddit_meme import send_meme_via_whatsapp, send_random_meme_via_whatsapp
+from reddit_meme import send_meme_via_whatsapp, send_random_meme_via_whatsapp, get_top_meme_of_the_day, get_top_meme_of_the_month, get_top_meme_of_the_week
 from data.json_data_manager import load_users, add_user, update_user, save_users
 import os
 import datetime
@@ -25,6 +25,10 @@ chat_service_sid = os.getenv("CHAT_SERVICE_SID")
 def make_meme_and_send_via_phone(from_whatsapp, to_whatsapp, prompt):
     send_text_message(to_whatsapp, "Generating your meme picture, please wait...")
     send_msg_with_media(from_whatsapp, to_whatsapp, "Here is your picture!", get_generated_meme_from_openai(prompt))
+
+
+def send_a_menu(to_whatsapp):
+    send_text_message(to_whatsapp, "How would you like to continue? \n\n* Type '001' for meme of the day! \n\n* Type '002' for meme of the week! \n\n* Type '003' for meme of the month! \n\n* Hola! Type '007' for AI freshly made meme! (And we don't know what is in their mind, right?)")
 
 
 def main_mvp_script():
@@ -50,12 +54,26 @@ def main_mvp_script():
                                       "Welcome to WhatsMEME – great that you found us! We love to share memes and happiness!")
                     add_user(conver_id, {"name": "SPACEHOLDER"})
                 if conver_id != "" and latest_msg != "":
-                    # send_text_message(new_to_whatsapp, "Do you want the meme of the day? Type '1'! Or do you want to generate a meme? Type '2'")
-                    first_reply_to_new_msg = get_text_response_from_openai(
-                        latest_msg + "Respond in 2 short sentences, then say sth like 'I want to share something to make it a better day for you!', change the quote but means the same, or similar")
-                    send_text_message(new_to_whatsapp, first_reply_to_new_msg)
-                    send_random_meme_via_whatsapp(twilio_number, new_to_whatsapp)
+                    if latest_msg.strip() not in ["001", "002", "003", "007"]:
+                        first_reply_to_new_msg = get_text_response_from_openai(
+                            latest_msg + "Respond in 2 short sentences, then say sth like 'I want to share something to make it a better day for you!', change the quote but means the same, or similar")
+                        send_text_message(new_to_whatsapp, first_reply_to_new_msg)
+                        send_random_meme_via_whatsapp(twilio_number, new_to_whatsapp)
+                    elif latest_msg.strip() == "001":
+                        text, image_url, permalink = get_top_meme_of_the_day()
+                        send_msg_with_media(new_to_whatsapp, text, image_url, permalink)
+                    elif latest_msg.strip() == "002":
+                        text, image_url, permalink = get_top_meme_of_the_week()
+                        send_msg_with_media(new_to_whatsapp, text, image_url, permalink)
+                    elif latest_msg.strip() == "003":
+                        text, image_url, permalink = get_top_meme_of_the_month()
+                        send_msg_with_media(new_to_whatsapp, text, image_url, permalink)
+                    elif latest_msg.strip() == "007":
+                        pass
                     # here can add the drop-down menu
+                    # send_text_message(new_to_whatsapp, "Do you want the meme of the day? Type '1'! Or do you want to generate a meme? Type '2'")
+
+                    send_a_menu(new_to_whatsapp)
 
                     update_user(conver_id, {"latest_message": latest_msg, "total_number_of_msg": number_of_msg})
 

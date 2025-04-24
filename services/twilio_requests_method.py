@@ -40,7 +40,7 @@ def send_message(message, from_whatsapp, to_whatsapp):
 
     print(response.status_code)
     print(response.json())
-send_message("Sending via http service", twilio_whatsapp, user_whatsapp)
+# send_message("Sending via http service", twilio_whatsapp, user_whatsapp)
 
 
 def send_list_picker_menu(from_whatsapp, to_whatsapp):
@@ -68,7 +68,7 @@ def send_list_picker_menu(from_whatsapp, to_whatsapp):
 
     response = requests.post(url, json=data, auth=HTTPBasicAuth(api_key_sid, api_key_secret))
     print(response.status_code, response.text)
-send_list_picker_menu(twilio_whatsapp, user_whatsapp)
+# send_list_picker_menu(twilio_whatsapp, user_whatsapp)
 
 
 
