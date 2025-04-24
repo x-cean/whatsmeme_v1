@@ -50,7 +50,7 @@ def main_mvp_script():
 
         pass #update database
 
-        time.sleep(10)  # take a break, int seconds
+        time.sleep(5)  # take a break, int seconds
 
 
 def backup_main_mvp():
