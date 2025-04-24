@@ -168,9 +168,10 @@ def list_conversations(a_chat_service_sid):
 
     for conversation in conversations:
         conver_length = len(conversation.messages.list())
+        latest_msg = conversation.messages.list()[-1].body.title()
         print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}, Total messages: {conver_length}",
-              {conversation.friendly_name})
-# list_conversations(chat_service_sid)
+              latest_msg)
+list_conversations(chat_service_sid)
 
 
 def get_user_whatsapp_via_friendly_name(a_conversation_sid):
