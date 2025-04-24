@@ -3,6 +3,7 @@ from ai.openai_helper import get_generated_meme_from_openai, get_text_response_f
 from services.twilio_service import get_conversation_sids, send_msg_with_media, send_text_message, retrieve_latest_message, detect_new_incoming_msg, user_data_just_a_demo, get_user_whatsapp_via_friendly_name
 from services.utility import welcome_user
 from reddit_meme import send_meme_via_whatsapp
+from data.json_data_manager import load_users, add_user, update_user, save_users
 import os
 import datetime
 import time
@@ -21,13 +22,14 @@ def main_mvp_script():
     # create a while loop with 5s time breaks
     print(f"Monitoring Conversations: {chat_service_sid}")
     while True:
-        new_conversation_info = detect_new_incoming_msg(chat_service_sid, user_data_just_a_demo)
+        user_data = load_users()
+        new_conversation_info = detect_new_incoming_msg(chat_service_sid, user_data) #user_data_just_a_demo#)
         if new_conversation_info:
-            new_user, new_msg, conver_id, latest_msg = new_conversation_info
+            is_new_user, is_new_msg, conver_id, latest_msg = new_conversation_info
             new_to_whatsapp = get_user_whatsapp_via_friendly_name(conver_id)
             print(new_to_whatsapp, type(new_to_whatsapp))
-            if new_msg:
-                if new_user:
+            if is_new_msg:
+                if is_new_user:
                     pass # welcome and get user name
                 if conver_id != "" and latest_msg != "":
                     first_reply_to_new_msg = get_text_response_from_openai(
