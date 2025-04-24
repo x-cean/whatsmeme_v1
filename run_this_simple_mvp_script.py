@@ -32,8 +32,10 @@ def main_mvp_script():
                         latest_msg + "Respond in 2 to 3 sentences, then say sth like 'I want to share something to make it a better day for you!' but change the quote slightly")
                     send_text_message(first_reply_to_new_msg)
                     send_meme_via_whatsapp(twilio_number, user_number)
+                    pass # update database
         print(datetime.datetime.now())
-        time.sleep(5)  # take a break, int seconds
+        pass # update json file
+        time.sleep(10)  # take a break, int seconds
 
 
 def backup_main_mvp():
