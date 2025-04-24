@@ -90,7 +90,9 @@ def list_conversations(a_chat_service_sid):
     conversations = client.conversations.v1.services(a_chat_service_sid).conversations.list()
 
     for conversation in conversations:
-        print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}", {conversation.friendly_name})
+        conver_length = len(conversation.messages.list())
+        print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}, Total messages: {conver_length}",
+              {conversation.friendly_name})
 list_conversations(chat_service_sid)
 
 
@@ -116,9 +118,10 @@ def retrieve_latest_message():
             return latest_message.body
 
 
-def detect_new_incoming_msg(a_chat_service_sid: str, user_data: dict, new_user: bool):
+def detect_new_incoming_msg(a_chat_service_sid: str, user_data: dict):
     """
     loop through conversations to find updates compared to the database
+    returns 4 variables!!! 2 boolean, 1 sid str, 1 msg str
     BE AWARE THAT NOW I AM USING A SIMPLE VARIABLE FAKE USER_DATA
     NEED TO UPDATE Tomorrow
     also we need a separate function that just update database
@@ -126,6 +129,7 @@ def detect_new_incoming_msg(a_chat_service_sid: str, user_data: dict, new_user: 
     # get a list of conversations from our chat service
     conversations = client.conversations.v1.services(a_chat_service_sid).conversations.list()
     new_user = False
+    new_msg = False
 
     # condition_1: new user, new conversation id
     if len(conversations) > len(user_data):
@@ -133,17 +137,22 @@ def detect_new_incoming_msg(a_chat_service_sid: str, user_data: dict, new_user: 
             if conversation.sid not in user_data:
                 print("New conversation detected:", conversation.sid)
                 new_user = True
+                new_msg = True
                 latest_msg = conversation.messages.list()[-1].body.title()
-                return new_user, conversation.sid, latest_msg
+                return new_user, new_msg, conversation.sid, latest_msg
 
     # condition_2: same users, then loop to see whether there's new msg
     elif len(conversations) == len(user_data):
         for conversation in conversations:
-            latest_msg = conversation.messages.list()[-1].body.title()
-            if latest_msg != user_data[conversation.sid]["Last message"]:
-                user_data[conversation.sid]["Last message"] = latest_msg
-                print("New message detected:", conversation.sid, latest_msg)
-                return conversation.sid, latest_msg
+            total_msg_num = len(conversation.messages.list())
+            record_msg_num = user_data[conversation.sid]["Total number of msg"]
+            if total_msg_num > record_msg_num:
+                new_msg = True
+                latest_msg = conversation.messages.list()[-1].body.title()
+                if latest_msg != user_data[conversation.sid]["Last message"]:
+                    user_data[conversation.sid]["Last message"] = latest_msg
+                    print("New message detected:", conversation.sid, latest_msg)
+                    return new_user, new_msg, conversation.sid, latest_msg
             else:
                 return
 
@@ -154,9 +163,9 @@ def detect_new_incoming_msg(a_chat_service_sid: str, user_data: dict, new_user: 
             conversations_lst.append(conversation.sid)
         for user_sid in user_data:
             if user_sid not in conversations_lst:
-                user_data.delete(user_sid)
+                del user_data[user_sid]
                 print("A conversation was gone, we remove it from our database too")
-                return "", ""
+                return
 
 
 def keep_simple_polling(a_conversation_sid, interval):
@@ -167,9 +176,9 @@ def keep_simple_polling(a_conversation_sid, interval):
     while True:
         new_conversation_info = detect_new_incoming_msg(chat_service_sid, user_data_just_a_demo)
         if new_conversation_info:
-            conv_id, msg = new_conversation_info
-            if conv_id != "" and msg != "":
-                return conv_id, msg
+            new_user, new_msg, conver_id, latest_msg = new_conversation_info
+            if conver_id != "" and latest_msg != "":
+                return conver_id, latest_msg
         print(datetime.datetime.now())
         time.sleep(interval) # take a break, int seconds
 
@@ -179,21 +188,25 @@ user_data_just_a_demo = {
     "CH8832e427c1d646daa19fdd10181185c3":
         {"Conversation Friendly Name": "RunOutOfSnacks",
          "Last message": "Why",
-         "Total number of msg": 10,
+         "Total number of msg": 21,
          },
     "CH49209d41e3604a9b85598ebb7f4ecd65":
         {"Conversation Friendly Name": "RandomFriendlyName",
-         "Last message": "Hi"
+         "Last message": "Hi", "Total number of msg": 2,
          },
     "CHa5e5424de3874cf8bb2205ddf64e25d9":
         {"Conversation Friendly Name": "RunOutOfSnacks",
-         "Last message": "Best Meme Of The Day",
+         "Last message": "Best Meme Of The Day", "Total number of msg": 3,
          },
     "CH0e1b7455098a4828a3c9cfba68565132":
-        {"Conversation Friendly Name": "RunOutOfSnacks",
-         "Last message": "Hello",
+        {"Conversation Friendly Name": "RunOutOfSnackssnacks",
+         "Last message": "Hello", "Total number of msg": 12,
+         },
+    "CH490cf1c182714b6db91d90a9976797b9":
+        {"Conversation Friendly Name": "RunOutOfSnackssnacks",
+         "Last message": "Hello", "Total number of msg": 8,
          },
 }
 
 
-# keep_simple_polling(chat_service_sid, 5)
+keep_simple_polling(chat_service_sid, 5)
