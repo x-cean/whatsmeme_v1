@@ -23,7 +23,7 @@ def main_mvp_script():
     print(f"Monitoring Conversations: {chat_service_sid}")
     while True:
         user_data = load_users()
-        new_conversation_info = detect_new_incoming_msg(chat_service_sid, user_data) #user_data_just_a_demo#)
+        new_conversation_info = detect_new_incoming_msg(chat_service_sid, user_data)
         if new_conversation_info:
             is_new_user, is_new_msg, conver_id, latest_msg = new_conversation_info
             new_to_whatsapp = get_user_whatsapp_via_friendly_name(conver_id)
@@ -31,14 +31,22 @@ def main_mvp_script():
             if is_new_msg:
                 if is_new_user:
                     pass # welcome and get user name
+                    #where to get conversation friendly name?
+                    add_user(conver_id, {"name": name})
+
                 if conver_id != "" and latest_msg != "":
                     first_reply_to_new_msg = get_text_response_from_openai(
                         latest_msg + "Respond in 2 to 3 sentences, then say sth like 'I want to share something to make it a better day for you!' but change the quote slightly")
                     send_text_message(new_to_whatsapp, first_reply_to_new_msg)
                     send_meme_via_whatsapp(twilio_number, new_to_whatsapp)
-                    pass # update database
+
+                    user_data[conver_id] = {"latest_message": latest_msg, "total_number_of_msg": number_of_msg}
+                    update_user(conver_id, user_data)
+
         print(datetime.datetime.now())
-        pass # update json file
+
+        pass #update database
+
         time.sleep(10)  # take a break, int seconds
 
 
