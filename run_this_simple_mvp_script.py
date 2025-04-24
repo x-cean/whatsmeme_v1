@@ -85,6 +85,8 @@ def main_mvp_script():
                         send_text_message(new_to_whatsapp, first_reply_to_new_msg)
                         send_random_meme_via_whatsapp(twilio_number, new_to_whatsapp)
                         random_number = lottery_nr()
+                        if is_new_user:
+                            random_number == 3
                         if random_number == 1:
                             send_text_message(new_to_whatsapp, "By the way")
                             send_a_menu(new_to_whatsapp)

@@ -5,7 +5,7 @@ from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 from dotenv import load_dotenv
 
-from reddit_meme import get_top_meme_of_the_day, get_random_meme, send_meme_via_whatsapp
+# from reddit_meme import get_top_meme_of_the_day, get_random_meme, send_meme_via_whatsapp
 
 # get random meme
 
@@ -35,6 +35,7 @@ api_secret = os.getenv("MS_TWILIO_API_KEY_SECRET")
 twilio_number = os.getenv("TWILIO_PHONE_NUMBER")
 user_number = os.getenv("USER_PHONE_NUMBER")
 chat_service_sid = os.getenv("CHAT_SERVICE_SID")
+conversation_id = os.getenv("CONVERSATION_ID")
 programmer_conversation_sid = os.getenv("CONVERSATION_SID")
 
 client = Client(api_sid, api_secret, account_sid)
@@ -97,7 +98,7 @@ def get_conversation_sids():
 
     return conversation_sids_list
 
-print(get_conversation_sids())
+# print(get_conversation_sids())
 
 
 def retrieve_latest_message():
@@ -175,7 +176,7 @@ def list_conversations(a_chat_service_sid):
         latest_msg = conversation.messages.list()[-1].body.title()
         print(f"Conversation SID: {conversation.sid}, Conversation status: {conversation.state}, Total messages: {conver_length}",
               latest_msg)
-list_conversations(chat_service_sid)
+# list_conversations(chat_service_sid)
 
 
 def get_user_whatsapp_via_friendly_name(a_conversation_sid):
@@ -201,26 +202,29 @@ def get_user_whatsapp_via_friendly_name(a_conversation_sid):
 #         time.sleep(interval) # take a break, int seconds
 
 
-def handle_user_menu_choice(choice):
+# def handle_user_menu_choice(choice):
+#
+#     if choice == "1":
+#         # Option 1: Send a random meme
+#         title, image_url, permalink = get_random_meme()
+#         send_msg_with_media(twilio_number, user_number, f"Here's a random meme: {title}", image_url)
+#
+#     elif choice == "2":
+#         # Option 2: Make your own meme
+#         send_meme_via_whatsapp(twilio_number, user_number)
+#
+#     elif choice == "3":
+#         # Option 3: Send the meme of the day
+#         title, image_url, permalink = get_top_meme_of_the_day()
+#         send_msg_with_media(twilio_number, user_number, title, image_url)
+#
+#     else:
+#         # Invalid option: Send a message with the available options
+#         send_text_message(user_number, "Invalid option. Please reply with:\n1 - Random Meme\n2 - Make your own meme\n3 - Meme of the day")
 
-    if choice == "1":
-        # Option 1: Send a random meme
-        title, image_url, permalink = get_random_meme()
-        send_msg_with_media(twilio_number, user_number, f"Here's a random meme: {title}", image_url)
 
-    elif choice == "2":
-        # Option 2: Make your own meme
-        send_meme_via_whatsapp(twilio_number, user_number)
-
-    elif choice == "3":
-        # Option 3: Send the meme of the day
-        title, image_url, permalink = get_top_meme_of_the_day()
-        send_msg_with_media(twilio_number, user_number, title, image_url)
-
-    else:
-        # Invalid option: Send a message with the available options
-        send_text_message(user_number, "Invalid option. Please reply with:\n1 - Random Meme\n2 - Make your own meme\n3 - Meme of the day")
-
-
-
+# def delete_conversation(a_conversation_sid):
+#     conversation = client.conversations.v1.services(chat_service_sid).conversations(a_conversation_sid).fetch()
+#     conversation.delete()
+# delete_conversation(conversation_id)
 
