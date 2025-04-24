@@ -32,4 +32,4 @@ def main_mvp():
         first_reply_to_new_msg = get_text_response_from_openai(msg + "Respond in 2 to 3 sentences, then say sth like 'I want to share something to make it a better day for you!' but change the quote slightly")
         send_text_message(first_reply_to_new_msg)
         send_meme_via_whatsapp(twilio_number, user_number)
-main_mvp()
+# main_mvp()

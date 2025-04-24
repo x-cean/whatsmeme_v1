@@ -5,11 +5,21 @@ from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 from dotenv import load_dotenv
 
-# connect database
-# build the loop better, using msg numbers
 # get random meme
-# ai generator
-# dropdown menu / text menu
+
+# connect database *** xiao
+
+# build the loop better, using msg numbers *** xiao
+
+# new user:
+# my name is xxxx
+
+# ai generator - url jpg
+
+# dropdown menu / text menu *** raquel
+# 1 random meme
+# 2 make your own meme
+# 3 meme of the day
 
 ## when more people are connecting at the same time
 
