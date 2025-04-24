@@ -22,6 +22,11 @@ chat_service_sid = os.getenv("CHAT_SERVICE_SID")
 # get name
 # number of msg
 
+def make_meme_and_send_via_phone(from_whatsapp, to_whatsapp, prompt):
+    send_text_message(to_whatsapp, "Generating your meme picture, please wait...")
+    send_msg_with_media(from_whatsapp, to_whatsapp, "Here is your picture!", get_generated_meme_from_openai(prompt))
+
+
 def main_mvp_script():
     # create a while loop with 5s time breaks
     is_first_message = True
@@ -50,6 +55,7 @@ def main_mvp_script():
                         latest_msg + "Respond in 2 to 3 sentences, then say sth like 'I want to share something to make it a better day for you!' but change the quote slightly")
                     send_text_message(new_to_whatsapp, first_reply_to_new_msg)
                     send_random_meme_via_whatsapp(twilio_number, new_to_whatsapp)
+                    # here add the drop-down menu
                     update_user(conver_id, {"latest_message": latest_msg, "total_number_of_msg": number_of_msg})
 
         print(datetime.datetime.now())
