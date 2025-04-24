@@ -43,6 +43,41 @@ def send_message(message, from_whatsapp, to_whatsapp):
 send_message("Sending via http service", twilio_whatsapp, user_whatsapp)
 
 
+def send_list_picker_menu(from_whatsapp, to_whatsapp):
+    # draft
+    data = {
+        "to": f"whatsapp:{to_whatsapp}",
+        "from": f"whatsapp:{from_whatsapp}",
+        "interactive": {
+            "type": "list",
+            "header": {"type": "text", "text": "Choose a service"},
+            "body": {"text": "Please select an option:"},
+            "footer": {"text": "Powered by Twilio"},
+            "action": {
+                "button": "View Options",
+                "sections": [{
+                    "title": "Services",
+                    "rows": [
+                        {"id": "option1", "title": "Nutrition Tips", "description": "Get personalized tips"},
+                        {"id": "option2", "title": "Meal Plans", "description": "Explore weekly meal plans"}
+                    ]
+                }]
+            }
+        }
+    }
+
+    response = requests.post(url, json=data, auth=HTTPBasicAuth(api_key_sid, api_key_secret))
+    print(response.status_code, response.text)
+send_list_picker_menu(twilio_whatsapp, user_whatsapp)
+
+
+
+
+
+
+
+
+
 def send_interactive_message(from_whatsapp, to_whatsapp):
 # Interactive message payload
     payload = {
@@ -97,4 +132,4 @@ def send_interactive_message(from_whatsapp, to_whatsapp):
     print(response.status_code)
     print(response.text)
 
-send_interactive_message(twilio_whatsapp, user_whatsapp)
+# send_interactive_message(twilio_whatsapp, user_whatsapp)

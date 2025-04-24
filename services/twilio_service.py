@@ -220,3 +220,7 @@ def handle_user_menu_choice(choice):
     else:
         # Invalid option: Send a message with the available options
         send_text_message(user_number, "Invalid option. Please reply with:\n1 - Random Meme\n2 - Make your own meme\n3 - Meme of the day")
+
+
+
+
