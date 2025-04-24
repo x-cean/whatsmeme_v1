@@ -90,10 +90,21 @@ def get_ai_response_to_meme_title(meme_text):
     return get_text_response_from_openai(meme_text)
 
 
-def send_meme_via_whatsapp(from_whatsapp, to_whatsapp):
+def send_top_meme_via_whatsapp(from_whatsapp, to_whatsapp):
     from services.twilio_service import send_msg_with_media
 
     meme_info = get_top_meme_of_the_day()
+    meme_text = meme_info[0]
+    ai_comment = get_ai_response_to_meme_title(meme_text + "Please respond in 1 or 2 short sentences.")
+    body = meme_text + "\n\n" + ai_comment
+    media_url = meme_info[1]
+    send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url)
+
+
+def send_random_meme_via_whatsapp(from_whatsapp, to_whatsapp):
+    from services.twilio_service import send_msg_with_media
+
+    meme_info = get_random_meme()
     meme_text = meme_info[0]
     ai_comment = get_ai_response_to_meme_title(meme_text + "Please respond in 1 or 2 short sentences.")
     body = meme_text + "\n\n" + ai_comment
