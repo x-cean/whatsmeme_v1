@@ -5,15 +5,24 @@ Using APIs to get Memes
 import os
 import requests
 import datetime
+import random
+import praw
 from dotenv import load_dotenv
 
-from services.twilio_service import send_msg_with_media
+
 from ai.openai_helper import get_text_response_from_openai
 
 
 REDDIT_MEME_URL = "https://www.reddit.com/r/memes/top/.json"
 twilio_number = os.getenv("TWILIO_PHONE_NUMBER")
 user_number = os.getenv("USER_PHONE_NUMBER")
+
+# Set up Reddit API using PRAW
+reddit = praw.Reddit(
+    client_id=os.getenv("REDDIT_CLIENT_ID"),
+    client_secret=os.getenv("REDDIT_CLIENT_SECRET"),
+    user_agent="whatsmeme-script"
+)
 
 
 def get_top_meme_of_the_time(time): # "week"
@@ -61,8 +70,15 @@ def get_top_meme_of_the_year():
 
 
 def get_random_meme():
-    pass
-    # feasible, need a reddit developer account, will take care of this later
+    # Use PRAW to get a random meme from the memes subreddit
+    memes = list(reddit.subreddit("memes").hot(limit=50))  # Get the top 50 hot posts
+    meme = memes[random.randint(0, len(memes) - 1)]  # Select a random meme
+
+    title = meme.title
+    image_url = meme.url
+    permalink = f"https://reddit.com{meme.permalink}"
+
+    return title, image_url, permalink
 
 
 def get_ai_response_to_meme_title(meme_text):
@@ -75,16 +91,11 @@ def get_ai_response_to_meme_title(meme_text):
 
 
 def send_meme_via_whatsapp(from_whatsapp, to_whatsapp):
-    """
-    send a customized meme via whatsapp
-    including meme intro, meme title, AI comment and of course the meme displayed in media form
-    """
+    from services.twilio_service import send_msg_with_media
+
     meme_info = get_top_meme_of_the_day()
     meme_text = meme_info[0]
     ai_comment = get_ai_response_to_meme_title(meme_text + "Please respond in 1 or 2 short sentences.")
     body = meme_text + "\n\n" + ai_comment
     media_url = meme_info[1]
     send_msg_with_media(from_whatsapp, to_whatsapp, body, media_url)
-
-
-# send_meme_via_whatsapp(twilio_number, user_number)

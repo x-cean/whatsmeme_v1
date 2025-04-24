@@ -34,7 +34,8 @@ def main_mvp_script():
             print(new_to_whatsapp, type(new_to_whatsapp))
             if is_new_msg:
                 if is_new_user:
-                    pass # welcome and get user name
+                    #to_whatsapp =
+                    #welcome_new_user()
                     add_user(conver_id, {"name": "SPACEHOLDER"})
 
                 if conver_id != "" and latest_msg != "":

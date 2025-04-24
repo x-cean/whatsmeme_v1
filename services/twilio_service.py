@@ -4,6 +4,7 @@ import datetime
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 from dotenv import load_dotenv
+from reddit_meme import get_top_meme_of_the_day, get_random_meme, send_meme_via_whatsapp
 
 # get random meme
 
@@ -199,30 +200,22 @@ def get_user_whatsapp_via_friendly_name(a_conversation_sid):
 #         time.sleep(interval) # take a break, int seconds
 
 
-# what do we need in the database???
-user_data_just_a_demo = {
-    "CH8832e427c1d646daa19fdd10181185c3":
-        {"Conversation Friendly Name": "RunOutOfSnacks",
-         "Last message": "Bye",
-         "Total number of msg": 29,
-         },
-    "CH49209d41e3604a9b85598ebb7f4ecd65":
-        {"Conversation Friendly Name": "RandomFriendlyName",
-         "Last message": "Bye", "Total number of msg": 6,
-         },
-    "CHa5e5424de3874cf8bb2205ddf64e25d9":
-        {"Conversation Friendly Name": "RunOutOfSnacks",
-         "Last message": "Bye", "Total number of msg": 15,
-         },
-    "CH0e1b7455098a4828a3c9cfba68565132":
-        {"Conversation Friendly Name": "RunOutOfSnackssnacks",
-         "Last message": "Bye", "Total number of msg": 18,
-         },
-    "CH490cf1c182714b6db91d90a9976797b9":
-        {"Conversation Friendly Name": "RunOutOfSnackssnacks",
-         "Last message": "Bye", "Total number of msg": 3,
-         },
-}
+def handle_user_menu_choice(choice):
 
+    if choice == "1":
+        # Option 1: Send a random meme
+        title, image_url, permalink = get_random_meme()
+        send_msg_with_media(twilio_number, user_number, f"Here's a random meme: {title}", image_url)
 
-# keep_simple_polling(chat_service_sid, 5)
+    elif choice == "2":
+        # Option 2: Make your own meme
+        send_meme_via_whatsapp(twilio_number, user_number)
+
+    elif choice == "3":
+        # Option 3: Send the meme of the day
+        title, image_url, permalink = get_top_meme_of_the_day()
+        send_msg_with_media(twilio_number, user_number, title, image_url)
+
+    else:
+        # Invalid option: Send a message with the available options
+        send_text_message(user_number, "Invalid option. Please reply with:\n1 - Random Meme\n2 - Make your own meme\n3 - Meme of the day")

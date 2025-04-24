@@ -28,6 +28,18 @@ def is_new_user(chat_id):
         return True
 
 
+def welcome_new_user(to_whatsapp):
+    message = "Hi there! Welcome to WhatsMEME – A place to lighten up your mood with some funny memes! 😄 Before we start, what's your name?"
+    send_text_message(to_whatsapp, message)
+    name = input().strip()
+    message = f"Nice to meet you, {name}! Let's dive into some hilarious content!"
+    send_text_message(to_whatsapp, message)
+    return name
+
+def welcome_existing_user(to_whatsapp, name):
+    message = f"Welcome back, {name}!"
+
+
 def welcome_user(chat_id):
     """
     Greets the user based on whether they are new or returning.
