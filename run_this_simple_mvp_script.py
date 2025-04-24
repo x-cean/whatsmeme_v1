@@ -18,6 +18,9 @@ user_number = os.getenv("USER_PHONE_NUMBER")
 chat_service_sid = os.getenv("CHAT_SERVICE_SID")
 
 
+# get friendly name
+# get name
+# number of msg
 
 def main_mvp_script():
     # create a while loop with 5s time breaks
@@ -26,14 +29,14 @@ def main_mvp_script():
         user_data = load_users()
         new_conversation_info = detect_new_incoming_msg(chat_service_sid, user_data)
         if new_conversation_info:
-            is_new_user, is_new_msg, conver_id, latest_msg = new_conversation_info
+            is_new_user, is_new_msg, conver_id, latest_msg, friendly_name, number_of_msg = new_conversation_info
             new_to_whatsapp = get_user_whatsapp_via_friendly_name(conver_id)
             print(new_to_whatsapp, type(new_to_whatsapp))
             if is_new_msg:
                 if is_new_user:
                     pass # welcome and get user name
                     #where to get conversation friendly name?
-                    add_user(conver_id, {"name": name})
+                    add_user(conver_id, {"name": "SPACEHOLDER"})
 
                 if conver_id != "" and latest_msg != "":
                     first_reply_to_new_msg = get_text_response_from_openai(
