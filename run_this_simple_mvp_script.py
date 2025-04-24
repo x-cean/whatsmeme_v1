@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from ai.openai_helper import get_generated_meme_from_openai, get_text_response_from_openai
-from services.twilio_service import get_conversation_sids, send_msg_with_media, send_text_message, retrieve_latest_message, detect_new_incoming_msg, user_data_just_a_demo
+from services.twilio_service import get_conversation_sids, send_msg_with_media, send_text_message, retrieve_latest_message, detect_new_incoming_msg, user_data_just_a_demo, get_user_whatsapp_via_friendly_name
 from services.utility import welcome_user
 from reddit_meme import send_meme_via_whatsapp
 import os
@@ -24,15 +24,16 @@ def main_mvp_script():
         new_conversation_info = detect_new_incoming_msg(chat_service_sid, user_data_just_a_demo)
         if new_conversation_info:
             new_user, new_msg, conver_id, latest_msg = new_conversation_info
+            new_to_whatsapp = get_user_whatsapp_via_friendly_name(conver_id)
+            print(new_to_whatsapp, type(new_to_whatsapp))
             if new_msg:
                 if new_user:
                     pass # welcome and get user name
                 if conver_id != "" and latest_msg != "":
                     first_reply_to_new_msg = get_text_response_from_openai(
                         latest_msg + "Respond in 2 to 3 sentences, then say sth like 'I want to share something to make it a better day for you!' but change the quote slightly")
-                    pass # add number
-                    send_text_message(first_reply_to_new_msg)
-                    send_meme_via_whatsapp(twilio_number, user_number)
+                    send_text_message(new_to_whatsapp, first_reply_to_new_msg)
+                    send_meme_via_whatsapp(twilio_number, new_to_whatsapp)
                     pass # update database
         print(datetime.datetime.now())
         pass # update json file
