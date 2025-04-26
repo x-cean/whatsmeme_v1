@@ -37,7 +37,7 @@ def lottery_nr():
 
 
 def main_mvp_script():
-    # create a while loop with 5s time breaks
+    # create a while loop with 2s time breaks
     is_first_message = True
     print(f"Monitoring Conversations: {chat_service_sid}")
     while True:
