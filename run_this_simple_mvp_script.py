@@ -1,9 +1,8 @@
 from dotenv import load_dotenv
 from ai.openai_helper import get_generated_meme_from_openai, get_text_response_from_openai
-from services.twilio_service import get_conversation_sids, send_msg_with_media, send_text_message, retrieve_latest_message, detect_new_incoming_msg, get_user_whatsapp_via_friendly_name
-from services.utility import welcome_user
-from reddit_meme import send_meme_via_whatsapp, send_random_meme_via_whatsapp, get_top_meme_of_the_day, get_top_meme_of_the_month, get_top_meme_of_the_week, send_top_meme_week_via_whatsapp, send_top_meme_month_via_whatsapp
-from data.json_data_manager import load_users, add_user, update_user, save_users
+from services.twilio_service import send_msg_with_media, send_text_message, detect_new_incoming_msg, get_user_whatsapp_via_friendly_name
+from reddit_meme import send_meme_via_whatsapp, send_random_meme_via_whatsapp, send_top_meme_week_via_whatsapp, send_top_meme_month_via_whatsapp
+from data.json_data_manager import load_users, add_user, update_user
 import os
 import datetime
 import time
@@ -32,12 +31,12 @@ def send_a_menu(to_whatsapp):
     send_text_message(to_whatsapp, "here is a glimpse of what we can do: \n* Type '000' to call out this menu again! \n\n* Type '001' for meme of the day! \n\n* Type '002' for meme of the week! \n\n* Type '003' for meme of the month! \n\n* Hola! Type '007' for AI freshly made meme! (And we don't know what is in their mind, right?)")
 
 
-def lottery_nr():
-    return random.randint(1, 3)
+def lottery_nr(x):
+    return random.randint(1, x)
 
 
 def main_mvp_script():
-    # create a while loop with 2s time breaks
+    # create a while loop with 2 s time breaks
     is_first_message = True
     print(f"Monitoring Conversations: {chat_service_sid}")
     while True:
@@ -52,14 +51,12 @@ def main_mvp_script():
                     send_text_message(new_to_whatsapp, "Heyo! You got the first message of our today's run!")
                     is_first_message = False
                 if is_new_user:
-                    #to_whatsapp =
-                    #welcome_new_user()
-                    # for now this is specific for new user
                     send_text_message(new_to_whatsapp,
                                       "Welcome to WhatsMEME – great that you found us! We love to share memes and happiness!")
                     send_a_menu(new_to_whatsapp)
                     add_user(conver_id, {"name": "SPACEHOLDER"})
                 if conver_id != "" and latest_msg != "":
+                    random_number = 3 # set up a random number
                     # lots of options
                     if latest_msg.strip() == "000":
                         send_a_menu(new_to_whatsapp)
@@ -78,15 +75,12 @@ def main_mvp_script():
                         send_text_message(new_to_whatsapp, "There's more we can do! \nIf you want to generate a meme with your own description, please start your msg with '007' followed by your description! We (and our AI fellow) will give it our best try!")
                     elif len(latest_msg.strip()) > 5 and latest_msg.strip()[:3] == "007":
                         make_meme_and_send_via_whatsapp(twilio_number, new_to_whatsapp, latest_msg[4:])
-                        send_a_menu(new_to_whatsapp)
                     else:
                         first_reply_to_new_msg = get_text_response_from_openai(
                             latest_msg + "Respond in 2 short sentences, then say sth like 'I want to share something to make it a better day for you!', change the quote but means the same, or similar")
                         send_text_message(new_to_whatsapp, first_reply_to_new_msg)
                         send_random_meme_via_whatsapp(twilio_number, new_to_whatsapp)
-                        random_number = lottery_nr()
-                        if is_new_user:
-                            random_number == 3
+                        random_number = lottery_nr(3)
                         if random_number == 1:
                             send_text_message(new_to_whatsapp, "By the way")
                             send_a_menu(new_to_whatsapp)
