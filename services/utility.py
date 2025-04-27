@@ -5,29 +5,6 @@ from data.json_data_manager import load_users, add_user, save_users
 from services.twilio_service import send_text_message
 
 
-def is_new_user(chat_id):
-    #TODO is this method needed? we are checking for new user in our main
-    """Checks whether the user is new or returning.
-        Adds the user to the system if they don't exist.
-        Args:
-            chat_id - the unique chat id to check
-        Returns:
-            bool: True if the user is new, False otherwise.
-        """
-    users = load_users()
-    print(users)
-
-    if chat_id in users.keys():
-        return False
-    else:
-        users[chat_id] = {
-            "seen_memes": [],
-            "last_meme": None
-            }
-        save_users(users)
-        return True
-
-
 def welcome_new_user(to_whatsapp):
     message = "Hi there! Welcome to WhatsMEME – A place to lighten up your mood with some funny memes! 😄 Before we start, what's your name?"
     send_text_message(to_whatsapp, message)
@@ -94,29 +71,6 @@ def show_help_menu():
     print("'help' - View this menu anytime.")
     print("'exit' - Leave WhatsMEME (but come back soon for more laughs!)\n")
 
-
-def get_random_meme(user_name):
-    """Fetches and displays a random meme from an external API.
-    Stores the meme in the user's seen history.
-    Args:
-        user_name (str): The name of the current user."""
-    
-    if user_name not in user_db:
-        user_db[user_name] = {"seen_memes": []}
-
-    seen = user_db[user_name]["seen_memes"]
-    unseen_memes = [meme for meme in meme_bank if meme not in seen]
-
-    if not unseen_memes:
-        print("😅 Uh-oh! You’ve seen all our memes for now.")
-        print("Check back later when we've got more meme madness for you!")
-        return
-
-    selected_meme = random.choice(unseen_memes)
-    user_db[user_name]["seen_memes"].append(selected_meme)
-
-    print("\nHere's your random meme! 😂")
-    print(f"{selected_meme}")
 
 
 def get_meme_by_topic(user_name, topic):
