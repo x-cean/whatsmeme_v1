@@ -1,6 +1,10 @@
 # whatsmeme
 
-`whatsmeme` is a Python-based tool designed to simplify the process of creating, customizing, and sharing memes. Embedded in whatsapp, it comes with an easy-to-use interface and support for various meme options, `whatsmeme` helps users collects or generate memes for social media, group chats, or personal entertainment. The project aims to make meme creation accessible for everyone, regardless of technical background.
+`whatsmeme` is a chat bot designed to simplify the process of creating, customizing, and sharing memes. 
+
+Embedded in whatsapp, it helps users collect or generate memes for social media, group chats, or personal entertainment easily. 
+
+The project aims to make meme creation accessible for everyone, and bring happiness and companion around.
 
 ## Features
 
